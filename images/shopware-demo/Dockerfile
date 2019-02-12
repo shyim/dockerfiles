@@ -1,6 +1,7 @@
 FROM shyim/nginx-php-shopware:72
 
 ARG SHOPWARE_DL=http://releases.s3.shopware.com.s3.amazonaws.com/install_5.5.6_9cb9f7b8f22ef979df1acd99b0e8071a6fbaf785.zip
+ENV VIRTUAL_SSL 0
 
 RUN apk add --no-cache mysql \
 	mysql-client
@@ -22,6 +23,5 @@ RUN /usr/bin/mysqld_safe --datadir='/var/lib/mysql' & sleep 2 && \
 	chown -R 1000:1000 /var/www/html
 	
 COPY entrypoint.sh /entrypoint.sh
-COPY supervisord.conf /etc/supervisord.conf
 
 CMD ["/bin/sh", "/entrypoint.sh"]
