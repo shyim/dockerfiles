@@ -1,0 +1,15 @@
+sudo: required
+
+language: php
+
+services:
+  - docker
+
+script:
+  - cd ${TRAVIS_BUILD_DIR}/scripts
+  - ./build.sh
+
+after_success:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
+  - cd ${TRAVIS_BUILD_DIR}/scripts
+  - bash ./push.sh
