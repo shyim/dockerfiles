@@ -1,26 +1,21 @@
 FROM php:7.2-fpm-alpine
 
+COPY --from=ochinchina/supervisord:latest /usr/local/bin/supervisord /usr/bin/supervisord
+
 RUN apk add --no-cache \
       nginx \
-      supervisor \
 	  shadow \
 	  bzip2-dev \
       ca-certificates \
-      freetype \
       freetype-dev \
-      git \
       icu-dev \
       libjpeg-turbo \
       libjpeg-turbo-dev \
       libmcrypt-dev \
-      libpng \
       libpng-dev \
       libzip-dev \
-      mysql-client \
       pcre-dev \
-      unzip \
-      libsodium-dev \
-      wget && \
+      libsodium-dev && \
     apk add --no-cache --virtual build-deps \
       coreutils \
       build-base \
@@ -50,19 +45,23 @@ RUN apk add --no-cache \
     mkdir /etc/supervisor.d/ && \
     chown -R www-data:www-data /var/lib/nginx /var/tmp/nginx/ && \
     chmod 777 -R /var/tmp/nginx/ && \
-    pecl install redis apcu && \
-    docker-php-ext-enable redis apcu && \
+    pecl install apcu && \
+    docker-php-ext-enable apcu && \
     apk del build-deps && \
     rm -rf /tmp/* && \
     chown -R www-data:www-data /var/www && \
     usermod -u 1000 www-data && \
-    apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing gnu-libiconv
+    apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing gnu-libiconv && \
+    echo 'upload_max_filesize = 128M' > /usr/local/etc/php/conf.d/docker.ini && \
+    echo 'post_max_size = 128M' >> /usr/local/etc/php/conf.d/docker.ini && \
+    echo 'max_execution_time = 30' >> /usr/local/etc/php/conf.d/docker.ini && \
+    echo 'date.timezone = "Europe/Berlin"' >> /usr/local/etc/php/conf.d/docker.ini && \
+    sed -i -e 's/listen = 9000/listen = \/tmp\/php-fpm.sock/g' /usr/local/etc/php-fpm.d/zz-docker.conf && \
+    echo 'listen.mode = 7777' >> /usr/local/etc/php-fpm.d/zz-docker.conf
 
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so php
 
-COPY rootfs/etc/nginx /etc/nginx
-COPY rootfs/etc/supervisord.conf /etc/supervisord.conf
-COPY rootfs/usr/local/etc/php/conf.d/docker.ini /usr/local/etc/php/conf.d/docker.ini
+COPY rootfs/etc/ /etc/
 
 EXPOSE 80
 

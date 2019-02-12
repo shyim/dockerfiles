@@ -20,3 +20,4 @@ done
 docker build -t shyim/nginx-static -f ../images/static/noindex/Dockerfile ../images/static/
 docker build -t shyim/nginx-static:autoindex -f ../images/static/index/Dockerfile ../images/static/
 docker build -t shyim/nut -f ../images/nut/Dockerfile ../images/nut/
+docker build -t shyim/shopware-demo:5.5.6 -f ../images/shopware-demo/Dockerfile ../images/shopware-demo/

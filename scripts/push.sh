@@ -17,3 +17,4 @@ done
 docker push shyim/nginx-static
 docker push shyim/nginx-static:autoindex
 docker push shyim/nut
+docker push shyim/shopware-demo:5.5.6

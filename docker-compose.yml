@@ -9,8 +9,7 @@ services:
       - /var/run/docker.sock:/tmp/docker.sock:ro
 
   testphp72:
-    image: shyim/nginx-static:autoindex
-    volumes:
-      - ./:/var/www/html
+    image: shyim/shopware-demo
     environment:
       - VIRTUAL_HOST=foo.localhost
+      - VIRTUAL_SSL=0
