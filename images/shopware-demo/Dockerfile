@@ -2,7 +2,7 @@ FROM shyim/nginx-php-shopware:72
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
-ARG SHOPWARE_DL=http://releases.s3.shopware.com.s3.amazonaws.com/install_5.5.6_9cb9f7b8f22ef979df1acd99b0e8071a6fbaf785.zip
+ARG SHOPWARE_DL=http://releases.s3.shopware.com.s3.amazonaws.com/install_5.5.7_f785facc70e39f2ca4292e78739457417f19fbcf.zip
 ENV VIRTUAL_SSL 0
 
 RUN apk add --no-cache mysql \

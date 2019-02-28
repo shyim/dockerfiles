@@ -24,6 +24,10 @@ if [[ ! -z $PLUGIN_GIT_URL ]]; then
     if [[ -e composer.json ]]; then
         composer install -o --no-dev
     fi
+    
+    if [[ -e Resources/demo.sql ]]; then
+    	mysql shopware < Resources/demo.sql
+    fi
 
     /var/www/html/bin/console sw:plugin:refresh
     /var/www/html/bin/console sw:plugin:install $name --activate
