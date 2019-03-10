@@ -34,7 +34,6 @@ if [[ ! -z $PLUGIN_GIT_URL ]]; then
     fi
 
     if [[ -e Resources/demo.sh ]]; then
-	cd /var/www/html/
         bash Resources/demo.sh
     fi
 
