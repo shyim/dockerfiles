@@ -1,10 +1,14 @@
 #!/bin/sh
 
-/usr/bin/mysqld_safe --datadir='/var/lib/mysql' &
+/usr/bin/mysqld --basedir=/usr --datadir=/var/lib/mysql --plugin-dir=/usr/lib/mysql/plugin --user=mysql & 
 sleep 5
 
 mysql shopware -e "UPDATE s_core_shops set host = '${VIRTUAL_HOST}'"
 mysql shopware -e "UPDATE s_core_shops set secure = '${VIRTUAL_SSL}'"
+
+if [[ $DISABLE_BACKEND == "1" ]]; then
+	mkdir /var/www/html/backend
+fi
 
 if [[ ! -z $PLUGIN_GIT_URL ]]; then
     name=$(basename $PLUGIN_GIT_URL)
@@ -27,6 +31,11 @@ if [[ ! -z $PLUGIN_GIT_URL ]]; then
     
     if [[ -e Resources/demo.sql ]]; then
     	mysql shopware < Resources/demo.sql
+    fi
+
+    if [[ -e Resources/demo.sh ]]; then
+	cd /var/www/html/
+        bash Resources/demo.sh
     fi
 
     /var/www/html/bin/console sw:plugin:refresh
