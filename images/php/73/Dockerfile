@@ -51,7 +51,7 @@ RUN apk add --no-cache \
     rm -rf /tmp/* && \
     chown -R www-data:www-data /var/www && \
     usermod -u 1000 www-data && \
-    apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing gnu-libiconv && \
+    apk add --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/community gnu-libiconv && \
     echo 'upload_max_filesize = 128M' > /usr/local/etc/php/conf.d/docker.ini && \
     echo 'post_max_size = 128M' >> /usr/local/etc/php/conf.d/docker.ini && \
     echo 'max_execution_time = 30' >> /usr/local/etc/php/conf.d/docker.ini && \
