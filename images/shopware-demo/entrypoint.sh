@@ -10,6 +10,11 @@ if [[ $DISABLE_BACKEND == "1" ]]; then
 	mkdir /var/www/html/backend
 fi
 
+if [[ $VIRTUAL_SSL == "1" ]]; then
+    sed -i -e 's/<?php return/<?php $_SERVER["HTTPS"] = true; return/g' /var/www/html/config.php
+fi
+
+
 if [[ ! -z $PLUGIN_GIT_URL ]]; then
     name=$(basename $PLUGIN_GIT_URL)
     name=$(echo $name | sed 's/\.git//g')
