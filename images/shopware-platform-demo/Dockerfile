@@ -30,10 +30,10 @@ RUN cd development && mkdir /run/mysqld/ && chown -R mysql:mysql /run/mysqld/ &&
 	bin/console administration:dump:bundles && \
 	bin/console scheduled-task:register && \
 	bin/console user:create admin --password=shopware && \
-	bin/console framework:demodata && \
-	bin/console dbal:refresh:index && \
 	# Admin
-	npm --prefix vendor/shopware/platform/src/Administration/Resources/administration/ install && \
+
+	npm clean-install --prefix vendor/shopware/platform/src/Administration/Resources && \
+	npm run --prefix vendor/shopware/platform/src/Administration/Resources lerna -- bootstrap && \
 	PROJECT_ROOT=/development npm run --prefix vendor/shopware/platform/src/Administration/Resources/administration/ build && \
 	# Frontend
 	npm --prefix vendor/shopware/platform/src/Storefront/Resources/ install && \
@@ -77,7 +77,8 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 COPY --from=builder /development /var/www/html
 
 ENV VIRTUAL_SSL 0
-ENV DISABLE_BACKEND 1
+ENV DISABLE_ADMIN 0
+ENV GENERATE_DEMODATA 1
 ENV APP_ENV prod
 ENV APP_SECRET 8583a6ff63c5894a3195331701749943
 ENV APP_URL localhost
@@ -87,6 +88,7 @@ ENV COMPOSER_HOME /tmp/
 
 RUN apk add --no-cache mysql \
 	mysql-client \
+	bash \
 	git && \
     mysql_install_db --datadir=/var/lib/mysql --user=mysql &&\
 	echo "pdo_mysql.default_socket=/run/mysqld/mysqld.sock" > /usr/local/etc/php/conf.d/mysql.ini
@@ -100,4 +102,4 @@ RUN mkdir /run/mysqld/ && chown -R mysql:mysql /run/mysqld/ && /usr/bin/mysqld -
 
 COPY entrypoint.sh /entrypoint.sh
 
-CMD ["/bin/sh", "/entrypoint.sh"]
+CMD ["/bin/bash", "/entrypoint.sh"]
