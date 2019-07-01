@@ -59,6 +59,6 @@ php /var/www/html/bin/console assets:install
 
 rm -rf /var/www/html/var/cache/*
 
-chown -R 1000:1000 /var/www/html
+chown -R 1000:1000 /var/www/html/var /var/www/html/public
 
 /usr/bin/supervisord -c /etc/supervisord.conf

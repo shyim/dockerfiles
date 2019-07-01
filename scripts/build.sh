@@ -22,4 +22,5 @@ docker build -t shyim/nginx-static:autoindex -f ../images/static/index/Dockerfil
 docker build -t shyim/nut -f ../images/nut/Dockerfile ../images/nut/
 docker build -t shyim/shopware-demo:5.5.7 -f ../images/shopware-demo/Dockerfile ../images/shopware-demo/
 docker build -t shyim/shopware-demo-de:5.5.7 -f ../images/shopware-demo/Dockerfile ../images/shopware-demo-de/
+docker build -t shyim/shopware-platform-demo:dev-master -f ../images/shopware-platform-demo/Dockerfile ../images/shopware-platform-demo/
 docker build -t shyim/nginx-php-root:73 -f ../images/php/73-root/Dockerfile ../images/php/73-root/
